@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+vue/MyWatchAnimeListWebsite/.vscode
+go/anime_data.json
+go/api.exe
