@@ -23,6 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-vue/MyWatchAnimeListWebsite/.vscode
 go/anime_data.json
 go/api.exe
