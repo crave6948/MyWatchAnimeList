@@ -1,18 +1,14 @@
 <template>
-  <AnimeTable/>
-  <ActionMenu/>
+  <AnimeTable />
 </template>
 
 <script>
-import AnimeTable from './components/AnimeTable.vue';
-import ActionMenu from './components/ActionMenu.vue';
+import AnimeTable from './components/AnimeTable.vue'
 export default {
   components: {
-    AnimeTable,
-    ActionMenu,
-  },
-};
+    AnimeTable
+  }
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
