@@ -1,82 +1,73 @@
 <template>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th v-for="col in columns" :key="col.key">{{ col.label }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, rowIndex) in getData" :key="rowIndex">
-          <td v-for="(cell, colIndex) in row" :key="colIndex">
-            <template v-if="colIndex == 'image'">
-              <img :src="cell" :alt="cell" style="width: 300px;">
-            </template>
-            <template v-else>
-              {{ cell }}
-            </template>
-          </td>
-          <td>
-            <button @click="deleteAnime(row.id)">Delete</button>
-            <button @click="editAnime(row)">Edit</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button @click="printData">Print Data</button>
+  <div id="container">
+    <Box v-for="anime in data" :key="anime.id">
+      <AnimeCard
+        :imageUrl="anime.image"
+        :name="anime.name"
+        :watched="anime.watch"
+        :id="anime.id"
+        :calldelete="deleteAnime"
+      />
+    </Box>
   </div>
+  <ActionMenu :addAnime="addAnime" />
 </template>
 
 <script>
-const apiUrl = 'http://localhost:8080/anime';  // เปลี่ยน URL และ endpoint ตามที่คุณใช้
+import Box from './Misc/Box.vue'
+import AnimeCard from './design/AnimeCard.vue'
+import ActionMenu from './ActionMenu.vue'
+
+const apiUrl = 'http://localhost:8080/anime' // เปลี่ยน URL และ endpoint ตามที่คุณใช้
+
 export default {
+  name: 'AnimeTableNew',
+  components: {
+    Box,
+    AnimeCard,
+    ActionMenu
+  },
   data() {
     return {
-      columns: [
-        { key: 'id', label: 'ID' },
-        { key: 'name', label: 'Name' },
-        { key: 'episodes', label: 'Episodes' },
-        { key: 'image', label: 'Image' },
-      ],
-      rows: [],
-    };
+      data: []
+    }
   },
   created() {
     // ดึงข้อมูลจาก REST API
-    this.fetchDataFromApi();
+    this.fetchDataFromApi()
   },
   computed: {
     getData() {
-      return this.rows;
-    },
+      return this.data
+    }
   },
   methods: {
     fetchDataFromApi() {
       fetch(apiUrl)
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
-            throw new Error(`Failed to fetch data. Status code: ${response.status}`);
+            throw new Error(`Failed to fetch data. Status code: ${response.status}`)
           }
-          return response.json();
+          return response.json()
         })
-        .then(data => {
+        .then((data) => {
           // นำข้อมูลไปใช้ตามที่คุณต้องการ
-          this.rows = data;
-          console.log('Data:', data);
+          this.data = data
+          console.log('Data:', data)
         })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+        .catch((error) => {
+          console.error('Error:', error)
+        })
     },
     printData() {
-      console.log('Rows:', this.rows);
+      console.log('Rows:', this.data)
     },
     async deleteAnime(animeid) {
-      console.log('Delete anime');
-      console.log('Row:', animeid);
+      console.log('Delete anime')
+      console.log('Row:', animeid)
       const data = {
         id: animeid
-      };
+      }
       try {
         const response = await fetch(apiUrl + '/remove', {
           method: 'DELETE',
@@ -84,38 +75,64 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        });
+        })
 
         if (!response.ok) {
-          throw new Error('Failed to add anime');
+          throw new Error('Failed to add anime')
         }
 
-        alert('Anime ID:' + animeid +' Remove successfully!');
+        alert('Anime ID:' + animeid + ' Remove successfully!')
+        this.fetchDataFromApi()
       } catch (error) {
-        console.error('Error While Removing anime:', error.message);
-        alert('Failed to Removing anime. Please try again.');
+        console.error('Error While Removing anime:', error.message)
+        alert('Failed to Removing anime. Please try again.')
       }
     },
     editAnime(row) {
-      console.log('Edit anime');
-      console.log('Row:', row);
+      console.log('Edit anime')
+      console.log('Row:', row)
     },
-  },
-};
+    async addAnime(animeName, animeWatch, animeImage) {
+      const animeData = {
+        name: animeName,
+        watch: animeWatch,
+        image: animeImage
+      }
+
+      try {
+        const response = await fetch(apiUrl + '/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(animeData)
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to add anime')
+        }
+
+        // Reset input fields after successful addition
+        this.animeName = ''
+        this.animeWatch = 0
+        this.animeImage = ''
+
+        alert('Anime added successfully!')
+        this.fetchDataFromApi()
+      } catch (error) {
+        console.error('Error adding anime:', error.message)
+        alert('Failed to add anime. Please try again.')
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
-/* เพิ่มสไตล์ตามความเหมาะสม */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+#container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 400px);
+  justify-content: center;
 }
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
+/* Your component styles go here */
 </style>
