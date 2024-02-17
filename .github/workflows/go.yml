@@ -24,5 +24,5 @@ jobs:
     - name: Build
       run: |
         cd ./go/
-        go build api.go -o ./api.exe
+        go build -o ./api.exe api.go
         ls
