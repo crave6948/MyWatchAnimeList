@@ -25,7 +25,6 @@ jobs:
       run: |
         cd ./go/
         go build -o ./api.exe api.go
-        ls
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
