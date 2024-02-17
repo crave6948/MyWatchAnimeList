@@ -21,9 +21,9 @@ To run this web application locally, make sure you have Node.js and npm installe
 
 If you've made changes to the backend application written in Go and you need to rebuild it, follow these steps:
 
-1. Navigate to the `./go` directory in your terminal.
+1. Navigate to the `go` directory in your terminal.
 2. Run the following command to build the backend application:
-`go build api.go -o api.exe`
+`go build -o ./api.exe api.go`
 
 This will compile your Go code and produce an executable file named `api.exe`.
 
