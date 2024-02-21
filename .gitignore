@@ -25,3 +25,4 @@ dist-ssr
 
 go/anime_data.json
 go/api.exe
+*.code-workspace

@@ -5,6 +5,7 @@
     <p class="anime-card__watched">Watched Episodes : {{ watched }}</p>
     <p class="anime-card__id">ID : {{ id }}</p>
     <button @click="deleteAnime">Delete</button>
+    <button @click="editAnime">Edit</button>
   </div>
 </template>
 
@@ -30,11 +31,18 @@ export default {
     calldelete: {
       type: Function,
       required: true
+    },
+    calledit: {
+      type: Function,
+      required: true
     }
   },
   methods: {
     deleteAnime() {
       this.calldelete(this.id)
+    },
+    editAnime() {
+      this.calledit(this.id, this.name, this.watched, this.imageUrl)
     }
   }
 }
