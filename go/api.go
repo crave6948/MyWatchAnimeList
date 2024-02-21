@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/handlers"
@@ -20,10 +21,12 @@ type Anime struct {
 }
 
 var animeList []Anime
+var maxID int
 
 func main() {
 	// โหลดข้อมูลจากไฟล์ JSON (หากมี)
 	loadData()
+	updateID()
 
 	// สร้าง router ด้วย gorilla/mux
 	router := mux.NewRouter()
@@ -72,7 +75,8 @@ func addAnime(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// กำหนด ID ให้ anime
-	anime.ID = fmt.Sprintf("%d", len(animeList)+1)
+	maxID++
+	anime.ID = fmt.Sprintf("%d", maxID)
 
 	// เพิ่ม anime ใน slice
 	animeList = append(animeList, anime)
@@ -210,6 +214,24 @@ func loadData() {
 func saveDataEveryMinute() {
 	for {
 		saveData()
+		updateID()
 		time.Sleep(time.Minute)
+	}
+}
+
+func updateID() {
+	maxID = 0
+	updateAnimeListID()
+	for _, anime := range animeList {
+		id, _ := strconv.Atoi(anime.ID)
+		if id > maxID {
+			maxID = id
+		}
+	}	
+}
+// Function to update the ID of animeList from 0 to n
+func updateAnimeListID() {
+	for i := 0; i < len(animeList); i++ {
+		animeList[i].ID = strconv.Itoa(i)
 	}
 }
