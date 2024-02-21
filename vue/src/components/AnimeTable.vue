@@ -16,7 +16,7 @@
 <script>
 import Box from './Misc/Box.vue'
 import AnimeCard from './design/AnimeCard.vue'
-import ActionMenu from './ActionMenu.vue'
+import ActionMenu from './design/menu/ActionMenu.vue'
 
 const apiUrl = 'http://localhost:8080/anime' // เปลี่ยน URL และ endpoint ตามที่คุณใช้
 

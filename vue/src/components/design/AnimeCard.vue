@@ -41,23 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.anime-card {
-  /* Add your styles here */
-}
-
 .anime-card__image {
   width: 100%;
-}
-
-.anime-card__name {
-  /* Add your styles here */
-}
-
-.anime-card__watched {
-  /* Add your styles here */
-}
-
-.anime-card__id {
-  /* Add your styles here */
 }
 </style>
