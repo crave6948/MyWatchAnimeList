@@ -7,6 +7,7 @@
         :watched="anime.watch"
         :id="anime.id"
         :calldelete="deleteAnime"
+        :calledit="editAnime"
       />
     </Box>
   </div>
@@ -16,7 +17,7 @@
 <script>
 import Box from './Misc/Box.vue'
 import AnimeCard from './design/AnimeCard.vue'
-import ActionMenu from './ActionMenu.vue'
+import ActionMenu from './design/menu/ActionMenu.vue'
 
 const apiUrl = 'http://localhost:8080/anime' // เปลี่ยน URL และ endpoint ตามที่คุณใช้
 
@@ -88,9 +89,34 @@ export default {
         alert('Failed to Removing anime. Please try again.')
       }
     },
-    editAnime(row) {
+    async editAnime(id, name, watch, image) {
       console.log('Edit anime')
-      console.log('Row:', row)
+      console.log('Row:', id)
+      const data = {
+        id: id,
+        name: name,
+        watch: watch,
+        image: image
+      }
+      try {
+        const response = await fetch(apiUrl + '/edit', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to add anime')
+        }
+
+        alert('Anime ID:' + id + ' Update successfully!')
+        this.fetchDataFromApi()
+      } catch (error) {
+        console.error('Error While Updating anime:', error.message)
+        alert('Failed to Updating anime. Please try again.')
+      }
     },
     async addAnime(animeName, animeWatch, animeImage) {
       const animeData = {
