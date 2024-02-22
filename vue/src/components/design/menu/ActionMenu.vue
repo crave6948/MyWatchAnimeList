@@ -1,9 +1,9 @@
 <template>
   <div id="stickyDiv">
-    <img @click="clicked" id="icon" src="../../../assets/plusicon.svg" alt="plus">
+    <img @click="clicked" id="icon" src="../../../assets/plusicon.svg" alt="plus" />
   </div>
-  <div id="form">
-    <div id="panel" :class="[{'in': open}, { 'out': !open}]">
+  <div id="form" :class="[{disabled: !open}]">
+    <div id="panel" :class="[{ in: open }, { out: !open }]">
       <ActionForm :sent="calladd" />
     </div>
   </div>
@@ -72,6 +72,10 @@ export default {
   border-radius: 12px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
+}
+
+#form.disabled {
+  display: none;
 }
 
 .in {
