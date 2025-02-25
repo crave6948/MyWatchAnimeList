@@ -101,8 +101,10 @@ export default {
   width: 100%;
   padding: 0.8em 1em;
   border: 0.25em solid transparent;
-  background-image: linear-gradient(#000, #000),
-    linear-gradient(120deg, #f09 0%, #0ff 50%, #9f0 100%);
+  border-color: white;
+  background-color: transparent;
+  /* background-image: linear-gradient(#000000, #000000),
+    linear-gradient(120deg, #f09 0%, #0ff 50%, #9f0 100%); */
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border-radius: 1.8em;
